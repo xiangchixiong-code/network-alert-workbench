@@ -1,0 +1,77 @@
+### 健康检查
+GET http://localhost:8081/api/health
+
+### 查询统计看板
+GET http://localhost:8081/api/dashboard
+
+### 查询全部网络设备
+GET http://localhost:8081/api/devices
+
+### 按状态查询网络设备
+GET http://localhost:8081/api/devices?status=WARNING
+
+### 新增网络设备
+POST http://localhost:8081/api/devices
+Content-Type: application/json
+
+{
+  "name": "银川核心交换机备机",
+  "assetCode": "SW-YC-CORE-02",
+  "managementIp": "10.10.1.2",
+  "deviceType": "Switch",
+  "location": "银川政企机房",
+  "status": "ONLINE",
+  "ownerTeam": "网络运维组"
+}
+
+### 更新设备状态
+PATCH http://localhost:8081/api/devices/1/status
+Content-Type: application/json
+
+{
+  "status": "MAINTENANCE"
+}
+
+### 查询全部告警
+GET http://localhost:8081/api/alerts
+
+### 按状态查询告警
+GET http://localhost:8081/api/alerts?status=OPEN
+
+### 新增告警
+POST http://localhost:8081/api/alerts
+Content-Type: application/json
+
+{
+  "deviceId": 1,
+  "severity": "HIGH",
+  "title": "链路丢包",
+  "description": "上联链路出现丢包，需要检查端口和线路状态。",
+  "source": "巡检"
+}
+
+### 更新告警状态
+PATCH http://localhost:8081/api/alerts/1/status
+Content-Type: application/json
+
+{
+  "status": "PROCESSING",
+  "handler": "曹博轩"
+}
+
+### 查询运维记录
+GET http://localhost:8081/api/operation-records
+
+### 导出设备台账 Excel
+GET http://localhost:8081/api/devices/export
+
+### 导入设备台账 Excel
+POST http://localhost:8081/api/devices/import
+Content-Type: multipart/form-data; boundary=----NetworkAlertBoundary
+
+------NetworkAlertBoundary
+Content-Disposition: form-data; name="file"; filename="sample-network-devices-import.xlsx"
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+
+< ./sample-network-devices-import.xlsx
+------NetworkAlertBoundary--
